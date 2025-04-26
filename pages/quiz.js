@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import html2canvas from 'html2canvas';
 
 const questions = [
   {
@@ -53,6 +54,7 @@ export default function Quiz() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [result, setResult] = useState(null);
+  const resultRef = useRef(); // 📸 Ekran görüntüsü alınacak alan
 
   const handleAnswer = (option) => {
     const newAnswers = [...answers, option];
@@ -81,6 +83,17 @@ export default function Quiz() {
     setResult({ global: globalMatch, turkish: turkishMatch });
   };
 
+  const handleDownload = async () => {
+    if (resultRef.current) {
+      const canvas = await html2canvas(resultRef.current);
+      const dataUrl = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.href = dataUrl;
+      link.download = 'my_cheese_result.png';
+      link.click();
+    }
+  };
+
   if (result) {
     return (
       <div style={{
@@ -94,114 +107,59 @@ export default function Quiz() {
         padding: '20px',
         textAlign: 'center'
       }}>
-        <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>🎉 Congratulations!</h1>
-        <p style={{ fontSize: '1.2rem', marginBottom: '2rem', maxWidth: '400px' }}>
-          You found your perfect cheese match!
-        </p>
-
-        {/* Global Cheese Match */}
-        <div style={{
+        
+        {/* 📸 Sonuç Kartı */}
+        <div ref={resultRef} style={{
           backgroundColor: '#fff',
           borderRadius: '20px',
           padding: '20px',
-          marginBottom: '20px',
           width: '90%',
           maxWidth: '400px',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+          marginBottom: '20px'
         }}>
-          <img 
-            src={getCheeseImage(result.global?.name)} 
-            alt={result.global?.name} 
-            style={{ width: '100%', borderRadius: '15px', marginBottom: '15px' }}
-          />
+          <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>🎉 Congratulations!</h1>
+          <p style={{ fontSize: '1.2rem', marginBottom: '1rem' }}>
+            You found your perfect cheese match!
+          </p>
+
+          {/* Global Cheese */}
+          <img src={getCheeseImage(result.global?.name)} alt={result.global?.name} style={{ width: '100%', borderRadius: '15px', marginBottom: '15px' }} />
           <h2 style={{ fontSize: '1.5rem' }}>🧀 Global Cheese:</h2>
-          <p style={{ fontSize: '1.2rem', margin: '10px 0' }}>{result.global?.name || "Brie"}</p>
-          <p style={{ fontSize: '1rem', color: '#555' }}>
-            Texture: {result.global?.texture || "Soft"}<br />
-            Flavor: {result.global?.flavor || "Mild"}<br />
-            Personality: {result.global?.personality || "Elegant"}
-          </p>
-        </div>
+          <p>{result.global?.name}</p>
 
-        {/* Turkish Discovery */}
-        <div style={{
-          backgroundColor: '#fff',
-          borderRadius: '20px',
-          padding: '20px',
-          marginBottom: '20px',
-          width: '90%',
-          maxWidth: '400px',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
-        }}>
-          <img 
-            src={getCheeseImage(result.turkish?.name)} 
-            alt={result.turkish?.name} 
-            style={{ width: '100%', borderRadius: '15px', marginBottom: '15px' }}
-          />
+          {/* Turkish Discovery */}
+          <img src={getCheeseImage(result.turkish?.name)} alt={result.turkish?.name} style={{ width: '100%', borderRadius: '15px', marginTop: '20px', marginBottom: '15px' }} />
           <h2 style={{ fontSize: '1.5rem' }}>🇹🇷 Turkish Discovery:</h2>
-          <p style={{ fontSize: '1.2rem', margin: '10px 0' }}>{result.turkish?.name || "Ezine White Cheese"}</p>
-          <p style={{ fontSize: '1rem', color: '#555' }}>
-            Texture: {result.turkish?.texture || "Crumbly"}<br />
-            Flavor: {result.turkish?.flavor || "Salty"}<br />
-            Personality: {result.turkish?.personality || "Authentic"}
+          <p>{result.turkish?.name}</p>
+
+          {/* Alt Mesaj */}
+          <p style={{ fontSize: '0.9rem', marginTop: '20px', color: '#666' }}>
+            Find your real cheese match with The Cheese Quiz! 🧀
           </p>
         </div>
 
-        {/* Share on WhatsApp */}
-        <a 
-          href={`https://api.whatsapp.com/send?text=I found my perfect cheese match on The Cheese Quiz! 🧀🎉`} 
-          target="_blank" 
-          rel="noopener noreferrer"
+        {/* 📥 Download Button */}
+        <button
+          onClick={handleDownload}
           style={{
-            marginTop: '10px',
-            marginBottom: '10px',
-            backgroundColor: '#25D366',
+            backgroundColor: '#34d399',
             padding: '12px 24px',
             border: 'none',
             borderRadius: '9999px',
             fontSize: '1rem',
             fontWeight: 'bold',
-            textDecoration: 'none',
-            color: 'white',
-            display: 'inline-block',
-            transition: 'background 0.3s'
+            cursor: 'pointer',
+            marginBottom: '10px'
           }}
-          onMouseOver={e => e.target.style.backgroundColor = '#1DA851'}
-          onMouseOut={e => e.target.style.backgroundColor = '#25D366'}
         >
-          📲 Share on WhatsApp
-        </a>
+          📸 Download Your Result
+        </button>
 
-        {/* Share on Instagram */}
-        <a 
-          href="https://www.instagram.com/" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          style={{
-            marginTop: '10px',
-            marginBottom: '20px',
-            backgroundColor: '#E1306C',
-            padding: '12px 24px',
-            border: 'none',
-            borderRadius: '9999px',
-            fontSize: '1rem',
-            fontWeight: 'bold',
-            textDecoration: 'none',
-            color: 'white',
-            display: 'inline-block',
-            transition: 'background 0.3s'
-          }}
-          onMouseOver={e => e.target.style.backgroundColor = '#C13584'}
-          onMouseOut={e => e.target.style.backgroundColor = '#E1306C'}
-        >
-          📸 Share on Instagram
-        </a>
-
-        {/* Try Again Button */}
+        {/* 🔁 Try Again Button */}
         <button
           onClick={() => window.location.href = '/'}
           style={{
-            marginTop: '10px',
             backgroundColor: '#facc15',
             padding: '12px 24px',
             border: 'none',
@@ -209,13 +167,11 @@ export default function Quiz() {
             fontSize: '1rem',
             fontWeight: 'bold',
             cursor: 'pointer',
-            transition: 'background 0.3s'
           }}
-          onMouseOver={e => e.target.style.backgroundColor = '#fbbf24'}
-          onMouseOut={e => e.target.style.backgroundColor = '#facc15'}
         >
-          🔁 Try Again / Discover More
+          🔁 Try Again
         </button>
+
       </div>
     );
   }
@@ -280,8 +236,6 @@ export default function Quiz() {
               cursor: 'pointer',
               transition: 'background 0.3s'
             }}
-            onMouseOver={e => e.target.style.backgroundColor = '#fbbf24'}
-            onMouseOut={e => e.target.style.backgroundColor = '#facc15'}
           >
             {option}
           </button>
