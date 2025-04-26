@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import html2canvas from 'html2canvas'; // Ekran görüntüsü için ekledik
 
 const questions = [
   {
@@ -37,7 +38,6 @@ const cheeseData = [
   { name: "Mihaliç", texture: "Hard", flavor: "Salty", personality: "Traditional", origin: "Turkey" }
 ];
 
-// Yardımcı fonksiyon: Peynir ismine göre görsel yolu bulur
 const getCheeseImage = (name) => {
   const map = {
     "Brie": "brie.jpg",
@@ -80,6 +80,16 @@ export default function Quiz() {
     );
 
     setResult({ global: globalMatch, turkish: turkishMatch });
+  };
+
+  const handleShare = async () => {
+    const element = document.body;
+    const canvas = await html2canvas(element);
+    const data = canvas.toDataURL('image/png');
+    const link = document.createElement('a');
+    link.href = data;
+    link.download = 'my_cheese_match.png';
+    link.click();
   };
 
   if (result) {
@@ -148,11 +158,32 @@ export default function Quiz() {
           </p>
         </div>
 
+        {/* Share Your Result Button */}
+        <button
+          onClick={handleShare}
+          style={{
+            marginTop: '10px',
+            marginBottom: '10px',
+            backgroundColor: '#34d399',
+            padding: '12px 24px',
+            border: 'none',
+            borderRadius: '9999px',
+            fontSize: '1rem',
+            fontWeight: 'bold',
+            cursor: 'pointer',
+            transition: 'background 0.3s'
+          }}
+          onMouseOver={e => e.target.style.backgroundColor = '#059669'}
+          onMouseOut={e => e.target.style.backgroundColor = '#34d399'}
+        >
+          📸 Share Your Result
+        </button>
+
         {/* Try Again Button */}
         <button
           onClick={() => window.location.href = '/'}
           style={{
-            marginTop: '20px',
+            marginTop: '10px',
             backgroundColor: '#facc15',
             padding: '12px 24px',
             border: 'none',
