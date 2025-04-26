@@ -4,22 +4,27 @@ const questions = [
   {
     question: "What's your ideal cheese texture?",
     options: ["Soft", "Firm", "Crumbly", "Stringy", "Hard"],
+    image: "/images/texture.jpg"
   },
   {
     question: "Which flavor do you prefer?",
     options: ["Mild", "Sharp", "Nutty", "Strong", "Light", "Sour"],
+    image: "/images/flavor.jpg"
   },
   {
     question: "How would you describe your food personality?",
     options: ["Elegant", "Classic", "Rustic", "Playful", "Healthy", "Smoky"],
+    image: "/images/personality.jpg"
   },
   {
     question: "How do you usually enjoy cheese?",
     options: ["On its own", "In a salad", "With bread", "Melted", "With wine"],
+    image: "/images/enjoy.jpg"
   },
   {
     question: "Which region's food do you like most?",
     options: ["Mediterranean", "French", "British", "Middle Eastern", "Asian"],
+    image: "/images/region.jpg"
   }
 ];
 
