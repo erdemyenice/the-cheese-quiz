@@ -23,19 +23,82 @@ const questions = [
   }
 ];
 
+const cheeseData = [
+  { name: "Brie", texture: "Soft", flavor: "Mild", personality: "Elegant", origin: "Global" },
+  { name: "Cheddar", texture: "Firm", flavor: "Sharp", personality: "Classic", origin: "Global" },
+  { name: "Ezine White Cheese", texture: "Crumbly", flavor: "Salty", personality: "Authentic", origin: "Turkey" },
+  { name: "Tulum", texture: "Crumbly", flavor: "Strong", personality: "Rustic", origin: "Turkey" },
+  { name: "Lor", texture: "Soft", flavor: "Light", personality: "Healthy", origin: "Turkey" },
+  { name: "Mihaliç", texture: "Hard", flavor: "Salty", personality: "Traditional", origin: "Turkey" }
+];
+
 export default function Quiz() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState([]);
+  const [result, setResult] = useState(null);
 
   const handleAnswer = (option) => {
-    setAnswers([...answers, option]);
+    const newAnswers = [...answers, option];
+    setAnswers(newAnswers);
+
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
-      // Quiz bitti, sonuç sayfasına geçiş yapılabilir burada!
-      alert('Quiz Completed! 🎉 We will show your cheese match soon.');
+      calculateResult(newAnswers);
     }
   };
+
+  const calculateResult = (answers) => {
+    const [texture, flavor, personality] = answers;
+
+    const globalMatch = cheeseData.find(
+      (cheese) => cheese.origin === "Global" &&
+        (cheese.texture === texture || cheese.flavor === flavor || cheese.personality === personality)
+    );
+
+    const turkishMatch = cheeseData.find(
+      (cheese) => cheese.origin === "Turkey" &&
+        (cheese.texture === texture || cheese.flavor === flavor || cheese.personality === personality)
+    );
+
+    setResult({ global: globalMatch, turkish: turkishMatch });
+  };
+
+  if (result) {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        backgroundColor: '#fef9c3',
+        fontFamily: 'sans-serif',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '20px',
+        textAlign: 'center'
+      }}>
+        <h2 style={{ fontSize: '2rem' }}>🎯 Your Perfect Cheese Match!</h2>
+        <p style={{ fontSize: '1.5rem', marginTop: '1rem' }}>🧀 {result.global?.name || "Brie"}</p>
+        <h3 style={{ marginTop: '2rem', fontSize: '1.5rem' }}>🇹🇷 Turkish Discovery:</h3>
+        <p style={{ fontSize: '1.5rem' }}>🧀 {result.turkish?.name || "Ezine White Cheese"}</p>
+        <button
+          onClick={() => window.location.href = '/'}
+          style={{
+            marginTop: '2rem',
+            backgroundColor: '#facc15',
+            padding: '12px 24px',
+            border: 'none',
+            borderRadius: '9999px',
+            fontSize: '1rem',
+            fontWeight: 'bold',
+            cursor: 'pointer'
+          }}
+        >
+          🔁 Try Again
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div style={{
