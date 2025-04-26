@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import html2canvas from 'html2canvas'; // Ekran görüntüsü için ekledik
 
 const questions = [
   {
@@ -82,16 +81,6 @@ export default function Quiz() {
     setResult({ global: globalMatch, turkish: turkishMatch });
   };
 
-  const handleShare = async () => {
-    const element = document.body;
-    const canvas = await html2canvas(element);
-    const data = canvas.toDataURL('image/png');
-    const link = document.createElement('a');
-    link.href = data;
-    link.download = 'my_cheese_match.png';
-    link.click();
-  };
-
   if (result) {
     return (
       <div style={{
@@ -158,26 +147,55 @@ export default function Quiz() {
           </p>
         </div>
 
-        {/* Share Your Result Button */}
-        <button
-          onClick={handleShare}
+        {/* Share on WhatsApp */}
+        <a 
+          href={`https://api.whatsapp.com/send?text=I found my perfect cheese match on The Cheese Quiz! 🧀🎉`} 
+          target="_blank" 
+          rel="noopener noreferrer"
           style={{
             marginTop: '10px',
             marginBottom: '10px',
-            backgroundColor: '#34d399',
+            backgroundColor: '#25D366',
             padding: '12px 24px',
             border: 'none',
             borderRadius: '9999px',
             fontSize: '1rem',
             fontWeight: 'bold',
-            cursor: 'pointer',
+            textDecoration: 'none',
+            color: 'white',
+            display: 'inline-block',
             transition: 'background 0.3s'
           }}
-          onMouseOver={e => e.target.style.backgroundColor = '#059669'}
-          onMouseOut={e => e.target.style.backgroundColor = '#34d399'}
+          onMouseOver={e => e.target.style.backgroundColor = '#1DA851'}
+          onMouseOut={e => e.target.style.backgroundColor = '#25D366'}
         >
-          📸 Share Your Result
-        </button>
+          📲 Share on WhatsApp
+        </a>
+
+        {/* Share on Instagram */}
+        <a 
+          href="https://www.instagram.com/" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          style={{
+            marginTop: '10px',
+            marginBottom: '20px',
+            backgroundColor: '#E1306C',
+            padding: '12px 24px',
+            border: 'none',
+            borderRadius: '9999px',
+            fontSize: '1rem',
+            fontWeight: 'bold',
+            textDecoration: 'none',
+            color: 'white',
+            display: 'inline-block',
+            transition: 'background 0.3s'
+          }}
+          onMouseOver={e => e.target.style.backgroundColor = '#C13584'}
+          onMouseOut={e => e.target.style.backgroundColor = '#E1306C'}
+        >
+          📸 Share on Instagram
+        </a>
 
         {/* Try Again Button */}
         <button
