@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion'; // Framer Motion animasyon için eklendi
 
 const questions = [
   {
@@ -83,17 +84,21 @@ export default function Quiz() {
 
   if (result) {
     return (
-      <div style={{
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #fef9c3 0%, #fde68a 100%)',
-        fontFamily: 'sans-serif',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        padding: '20px',
-        textAlign: 'center'
-      }}>
+      <motion.div 
+        initial={{ opacity: 0 }} 
+        animate={{ opacity: 1 }} 
+        transition={{ duration: 0.8 }}
+        style={{
+          minHeight: '100vh',
+          background: 'linear-gradient(135deg, #fef9c3 0%, #fde68a 100%)',
+          fontFamily: 'sans-serif',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+          padding: '20px',
+          textAlign: 'center'
+        }}>
         <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>🎉 Congratulations!</h1>
         <p style={{ fontSize: '1.2rem', marginBottom: '2rem', maxWidth: '400px' }}>
           You found your perfect cheese match!
@@ -143,14 +148,14 @@ export default function Quiz() {
           <p>{result.turkish?.name}</p>
         </div>
 
-        {/* Share Buttons */}
+        {/* WhatsApp Share Only */}
         <a 
           href="https://api.whatsapp.com/send?text=I found my perfect cheese match with The Cheese Quiz! 🧀 Discover yours too at https://the-cheese-quiz.vercel.app/" 
           target="_blank" 
           rel="noopener noreferrer"
           style={{
             marginTop: '10px',
-            marginBottom: '10px',
+            marginBottom: '20px',
             backgroundColor: '#25D366',
             padding: '12px 24px',
             border: 'none',
@@ -164,27 +169,7 @@ export default function Quiz() {
           📲 Share on WhatsApp
         </a>
 
-        <a 
-          href="https://www.instagram.com/" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          style={{
-            marginTop: '10px',
-            marginBottom: '20px',
-            backgroundColor: '#E1306C',
-            padding: '12px 24px',
-            border: 'none',
-            borderRadius: '9999px',
-            fontSize: '1rem',
-            fontWeight: 'bold',
-            textDecoration: 'none',
-            color: 'white'
-          }}
-        >
-          📸 Share on Instagram
-        </a>
-
-        {/* Try Again Button */}
+        {/* Try Again */}
         <button
           onClick={() => window.location.href = '/'}
           style={{
@@ -199,22 +184,26 @@ export default function Quiz() {
         >
           🔁 Try Again
         </button>
-      </div>
+      </motion.div>
     );
   }
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      backgroundColor: '#fef9c3',
-      fontFamily: 'sans-serif',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'flex-start',
-      padding: '20px',
-      textAlign: 'center'
-    }}>
+    <motion.div 
+      initial={{ opacity: 0 }} 
+      animate={{ opacity: 1 }} 
+      transition={{ duration: 0.8 }}
+      style={{
+        minHeight: '100vh',
+        backgroundColor: '#fef9c3',
+        fontFamily: 'sans-serif',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        padding: '20px',
+        textAlign: 'center'
+      }}>
       
       {/* Image */}
       <img
@@ -282,7 +271,6 @@ export default function Quiz() {
           transition: 'width 0.3s ease'
         }} />
       </div>
-
-    </div>
+    </motion.div>
   );
 }
