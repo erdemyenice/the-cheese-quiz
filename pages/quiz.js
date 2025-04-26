@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion'; // Framer Motion animasyon için eklendi
+import { motion } from 'framer-motion'; // Framer Motion animasyon için import edildi
 
 const questions = [
   {
@@ -85,9 +85,9 @@ export default function Quiz() {
   if (result) {
     return (
       <motion.div 
-        initial={{ opacity: 0 }} 
-        animate={{ opacity: 1 }} 
-        transition={{ duration: 0.8 }}
+        initial={{ opacity: 0.2, y: 20 }} 
+        animate={{ opacity: 1, y: 0 }} 
+        transition={{ duration: 1.5 }}
         style={{
           minHeight: '100vh',
           background: 'linear-gradient(135deg, #fef9c3 0%, #fde68a 100%)',
@@ -190,9 +190,9 @@ export default function Quiz() {
 
   return (
     <motion.div 
-      initial={{ opacity: 0 }} 
-      animate={{ opacity: 1 }} 
-      transition={{ duration: 0.8 }}
+      initial={{ opacity: 0.2, y: 20 }} 
+      animate={{ opacity: 1, y: 0 }} 
+      transition={{ duration: 1.5 }}
       style={{
         minHeight: '100vh',
         backgroundColor: '#fef9c3',
