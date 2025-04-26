@@ -82,6 +82,12 @@ export default function Quiz() {
         padding: '20px',
         textAlign: 'center'
       }}>
+    <img
+  src={questions[currentQuestion].image}
+  alt="Question Visual"
+  style={{ width: '100%', maxWidth: '400px', height: 'auto', borderRadius: '20px', marginBottom: '20px' }}
+/>
+
         <h2 style={{ fontSize: '2rem' }}>🎯 Your Perfect Cheese Match!</h2>
         <p style={{ fontSize: '1.5rem', marginTop: '1rem' }}>🧀 {result.global?.name || "Brie"}</p>
         <h3 style={{ marginTop: '2rem', fontSize: '1.5rem' }}>🇹🇷 Turkish Discovery:</h3>
