@@ -90,7 +90,7 @@ export default function Quiz() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         padding: '20px',
         textAlign: 'center'
       }}>
@@ -109,7 +109,14 @@ export default function Quiz() {
           maxWidth: '400px',
           boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
         }}>
-          <img src={getCheeseImage(result.global?.name)} alt={result.global?.name} style={{ width: '100%', borderRadius: '15px', marginBottom: '15px' }} />
+          <img src={getCheeseImage(result.global?.name)} alt={result.global?.name} style={{
+            width: '100%',
+            maxWidth: '400px',
+            height: '200px',
+            objectFit: 'cover',
+            borderRadius: '15px',
+            marginBottom: '15px'
+          }} />
           <h2 style={{ fontSize: '1.5rem' }}>🧀 Global Cheese:</h2>
           <p>{result.global?.name}</p>
         </div>
@@ -124,10 +131,58 @@ export default function Quiz() {
           maxWidth: '400px',
           boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
         }}>
-          <img src={getCheeseImage(result.turkish?.name)} alt={result.turkish?.name} style={{ width: '100%', borderRadius: '15px', marginBottom: '15px' }} />
+          <img src={getCheeseImage(result.turkish?.name)} alt={result.turkish?.name} style={{
+            width: '100%',
+            maxWidth: '400px',
+            height: '200px',
+            objectFit: 'cover',
+            borderRadius: '15px',
+            marginBottom: '15px'
+          }} />
           <h2 style={{ fontSize: '1.5rem' }}>🇹🇷 Turkish Discovery:</h2>
           <p>{result.turkish?.name}</p>
         </div>
+
+        {/* Share Buttons */}
+        <a 
+          href="https://api.whatsapp.com/send?text=I found my perfect cheese match with The Cheese Quiz! 🧀 Discover yours too at https://the-cheese-quiz.vercel.app/" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          style={{
+            marginTop: '10px',
+            marginBottom: '10px',
+            backgroundColor: '#25D366',
+            padding: '12px 24px',
+            border: 'none',
+            borderRadius: '9999px',
+            fontSize: '1rem',
+            fontWeight: 'bold',
+            textDecoration: 'none',
+            color: 'white'
+          }}
+        >
+          📲 Share on WhatsApp
+        </a>
+
+        <a 
+          href="https://www.instagram.com/" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          style={{
+            marginTop: '10px',
+            marginBottom: '20px',
+            backgroundColor: '#E1306C',
+            padding: '12px 24px',
+            border: 'none',
+            borderRadius: '9999px',
+            fontSize: '1rem',
+            fontWeight: 'bold',
+            textDecoration: 'none',
+            color: 'white'
+          }}
+        >
+          📸 Share on Instagram
+        </a>
 
         {/* Try Again Button */}
         <button
