@@ -3,7 +3,7 @@ import { useState } from 'react';
 const questions = [
   {
     question: "What's your ideal cheese texture?",
-    options: ["Soft", "Firm", "Crumbly", "Stringy", "Hard"],
+    options: ["Soft", "Firm", "Crumbly", "Stringy", "Hard", "Creamy"],
     image: "/images/texture.jpg"
   },
   {
@@ -18,12 +18,12 @@ const questions = [
   },
   {
     question: "How do you usually enjoy cheese?",
-    options: ["On its own", "In a salad", "With bread", "Melted", "With wine"],
+    options: ["On its own", "In a salad", "With bread", "Melted", "With wine", "With fruits"],
     image: "/images/enjoy.jpg"
   },
   {
     question: "Which region's food do you like most?",
-    options: ["Mediterranean", "French", "British", "Middle Eastern", "Asian"],
+    options: ["Mediterranean", "French", "British", "Middle Eastern", "Asian", "American"],
     image: "/images/region.jpg"
   }
 ];
@@ -129,48 +129,7 @@ export default function Quiz() {
           <p>{result.turkish?.name}</p>
         </div>
 
-        {/* Share Buttons */}
-        <a 
-          href="https://api.whatsapp.com/send?text=I found my perfect cheese match with The Cheese Quiz! 🧀 Discover yours too at https://the-cheese-quiz.vercel.app/" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          style={{
-            marginTop: '10px',
-            marginBottom: '10px',
-            backgroundColor: '#25D366',
-            padding: '12px 24px',
-            border: 'none',
-            borderRadius: '9999px',
-            fontSize: '1rem',
-            fontWeight: 'bold',
-            textDecoration: 'none',
-            color: 'white'
-          }}
-        >
-          📲 Share on WhatsApp
-        </a>
-
-        <a 
-          href="https://www.instagram.com/" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          style={{
-            marginTop: '10px',
-            marginBottom: '20px',
-            backgroundColor: '#E1306C',
-            padding: '12px 24px',
-            border: 'none',
-            borderRadius: '9999px',
-            fontSize: '1rem',
-            fontWeight: 'bold',
-            textDecoration: 'none',
-            color: 'white'
-          }}
-        >
-          📸 Share on Instagram
-        </a>
-
-        {/* Try Again */}
+        {/* Try Again Button */}
         <button
           onClick={() => window.location.href = '/'}
           style={{
@@ -192,64 +151,74 @@ export default function Quiz() {
   return (
     <div style={{
       minHeight: '100vh',
-      backgroundImage: `url(${questions[currentQuestion].image})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
+      backgroundColor: '#fef9c3',
       fontFamily: 'sans-serif',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: 'flex-start',
       padding: '20px',
       textAlign: 'center'
     }}>
       
-      {/* Şeffaf kutu */}
-      <div style={{
-        backgroundColor: 'rgba(255, 255, 255, 0.8)',
-        padding: '20px',
-        borderRadius: '20px',
-        maxWidth: '400px',
-        width: '100%',
-        boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-        marginBottom: '20px'
-      }}>
-        <h2 style={{ fontSize: '1.8rem', marginBottom: '1rem' }}>
-          {questions[currentQuestion].question}
-        </h2>
+      {/* Image */}
+      <img
+        src={questions[currentQuestion].image}
+        alt="Question Visual"
+        style={{
+          width: '100%',
+          maxWidth: '400px',
+          height: '200px',
+          objectFit: 'cover',
+          borderRadius: '20px',
+          marginBottom: '20px'
+        }}
+      />
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          {questions[currentQuestion].options.map((option, index) => (
-            <button key={index}
-              onClick={() => handleAnswer(option)}
-              style={{
-                padding: '12px 20px',
-                backgroundColor: '#facc15',
-                border: 'none',
-                borderRadius: '12px',
-                fontSize: '1rem',
-                fontWeight: 'bold',
-                cursor: 'pointer',
-                transition: 'background 0.3s'
-              }}
-              onMouseOver={e => e.target.style.backgroundColor = '#fbbf24'}
-              onMouseOut={e => e.target.style.backgroundColor = '#facc15'}
-            >
-              {option}
-            </button>
-          ))}
-        </div>
+      {/* Question */}
+      <h2 style={{ fontSize: '1.8rem', marginBottom: '1rem' }}>
+        {questions[currentQuestion].question}
+      </h2>
+
+      {/* Options Grid */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr 1fr',
+        gap: '10px',
+        marginTop: '20px',
+        width: '100%',
+        maxWidth: '400px'
+      }}>
+        {questions[currentQuestion].options.map((option, index) => (
+          <button key={index}
+            onClick={() => handleAnswer(option)}
+            style={{
+              padding: '12px 10px',
+              backgroundColor: '#facc15',
+              border: 'none',
+              borderRadius: '12px',
+              fontSize: '0.9rem',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+              transition: 'background 0.3s',
+              minHeight: '50px'
+            }}
+            onMouseOver={e => e.target.style.backgroundColor = '#fbbf24'}
+            onMouseOut={e => e.target.style.backgroundColor = '#facc15'}
+          >
+            {option}
+          </button>
+        ))}
       </div>
 
       {/* Progress Bar */}
       <div style={{
+        marginTop: '20px',
         width: '80%',
         height: '10px',
         backgroundColor: '#ddd',
         borderRadius: '5px',
-        overflow: 'hidden',
-        position: 'absolute',
-        top: '20px'
+        overflow: 'hidden'
       }}>
         <div style={{
           width: `${((currentQuestion + 1) / questions.length) * 100}%`,
@@ -262,4 +231,3 @@ export default function Quiz() {
     </div>
   );
 }
-
