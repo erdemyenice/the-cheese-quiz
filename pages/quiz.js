@@ -129,7 +129,7 @@ export default function Quiz() {
           <p>{result.turkish?.name}</p>
         </div>
 
-        {/* WhatsApp Share */}
+        {/* Share Buttons */}
         <a 
           href="https://api.whatsapp.com/send?text=I found my perfect cheese match with The Cheese Quiz! 🧀 Discover yours too at https://the-cheese-quiz.vercel.app/" 
           target="_blank" 
@@ -150,7 +150,6 @@ export default function Quiz() {
           📲 Share on WhatsApp
         </a>
 
-        {/* Instagram Share */}
         <a 
           href="https://www.instagram.com/" 
           target="_blank" 
@@ -205,7 +204,7 @@ export default function Quiz() {
       textAlign: 'center'
     }}>
       
-      {/* Yarı şeffaf kutu */}
+      {/* Şeffaf kutu */}
       <div style={{
         backgroundColor: 'rgba(255, 255, 255, 0.8)',
         padding: '20px',
@@ -219,7 +218,6 @@ export default function Quiz() {
           {questions[currentQuestion].question}
         </h2>
 
-        {/* Seçenekler */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {questions[currentQuestion].options.map((option, index) => (
             <button key={index}
