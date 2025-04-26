@@ -1,4 +1,4 @@
-import { useState } from 'react'; // html2canvas kaldırıldı
+import { useState } from 'react';
 
 const questions = [
   {
@@ -193,7 +193,9 @@ export default function Quiz() {
   return (
     <div style={{
       minHeight: '100vh',
-      backgroundColor: '#fef9c3',
+      backgroundImage: `url(${questions[currentQuestion].image})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
       fontFamily: 'sans-serif',
       display: 'flex',
       flexDirection: 'column',
@@ -202,14 +204,54 @@ export default function Quiz() {
       padding: '20px',
       textAlign: 'center'
     }}>
+      
+      {/* Yarı şeffaf kutu */}
+      <div style={{
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        padding: '20px',
+        borderRadius: '20px',
+        maxWidth: '400px',
+        width: '100%',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+        marginBottom: '20px'
+      }}>
+        <h2 style={{ fontSize: '1.8rem', marginBottom: '1rem' }}>
+          {questions[currentQuestion].question}
+        </h2>
+
+        {/* Seçenekler */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          {questions[currentQuestion].options.map((option, index) => (
+            <button key={index}
+              onClick={() => handleAnswer(option)}
+              style={{
+                padding: '12px 20px',
+                backgroundColor: '#facc15',
+                border: 'none',
+                borderRadius: '12px',
+                fontSize: '1rem',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+                transition: 'background 0.3s'
+              }}
+              onMouseOver={e => e.target.style.backgroundColor = '#fbbf24'}
+              onMouseOut={e => e.target.style.backgroundColor = '#facc15'}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* Progress Bar */}
       <div style={{
         width: '80%',
         height: '10px',
         backgroundColor: '#ddd',
         borderRadius: '5px',
-        marginBottom: '20px',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        position: 'absolute',
+        top: '20px'
       }}>
         <div style={{
           width: `${((currentQuestion + 1) / questions.length) * 100}%`,
@@ -219,42 +261,6 @@ export default function Quiz() {
         }} />
       </div>
 
-      {/* Image */}
-      <img
-        src={questions[currentQuestion].image}
-        alt="Question Visual"
-        style={{
-          width: '100%',
-          maxWidth: '400px',
-          height: 'auto',
-          borderRadius: '20px',
-          marginBottom: '20px'
-        }}
-      />
-
-      {/* Question */}
-      <h2 style={{ fontSize: '1.8rem', marginBottom: '1rem' }}>{questions[currentQuestion].question}</h2>
-
-      {/* Options */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%', maxWidth: '300px' }}>
-        {questions[currentQuestion].options.map((option, index) => (
-          <button key={index}
-            onClick={() => handleAnswer(option)}
-            style={{
-              padding: '12px 20px',
-              backgroundColor: '#facc15',
-              border: 'none',
-              borderRadius: '12px',
-              fontSize: '1rem',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-              transition: 'background 0.3s'
-            }}
-          >
-            {option}
-          </button>
-        ))}
-      </div>
     </div>
   );
 }
