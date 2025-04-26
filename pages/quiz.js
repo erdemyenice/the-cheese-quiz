@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion'; // Framer Motion animasyon için import edildi
+import { useState, useRef } from 'react';
+import { motion } from 'framer-motion';
+import html2canvas from 'html2canvas'; // sonuç resmi için ekledik
 
 const questions = [
   {
@@ -28,7 +29,6 @@ const questions = [
     image: "/images/region.jpg"
   }
 ];
-
 const cheeseData = [
   { name: "Brie", texture: "Soft", flavor: "Mild", personality: "Elegant", origin: "Global" },
   { name: "Cheddar", texture: "Firm", flavor: "Sharp", personality: "Classic", origin: "Global" },
@@ -49,11 +49,11 @@ const getCheeseImage = (name) => {
   };
   return `/images/cheeses/${map[name] || "default.jpg"}`;
 };
-
 export default function Quiz() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [result, setResult] = useState(null);
+  const resultRef = useRef(); // SONUÇ ekranını referansla seçmek için
 
   const handleAnswer = (option) => {
     const newAnswers = [...answers, option];
@@ -81,8 +81,17 @@ export default function Quiz() {
 
     setResult({ global: globalMatch, turkish: turkishMatch });
   };
-
   if (result) {
+    const captureResult = async () => {
+      if (resultRef.current) {
+        const canvas = await html2canvas(resultRef.current);
+        const link = document.createElement('a');
+        link.download = 'my-cheese-result.png';
+        link.href = canvas.toDataURL();
+        link.click();
+      }
+    };
+
     return (
       <motion.div 
         initial={{ opacity: 0.2, y: 20 }} 
@@ -99,80 +108,76 @@ export default function Quiz() {
           padding: '20px',
           textAlign: 'center'
         }}>
-        <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>🎉 Congratulations!</h1>
-        <p style={{ fontSize: '1.2rem', marginBottom: '2rem', maxWidth: '400px' }}>
-          You found your perfect cheese match!
-        </p>
+        
+        {/* Bu alanı yakalayacağız */}
+        <div ref={resultRef} style={{ width: '100%', maxWidth: '400px' }}>
+          <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>🎉 Congratulations!</h1>
+          <p style={{ fontSize: '1.2rem', marginBottom: '2rem' }}>
+            You found your perfect cheese match!
+          </p>
 
-        {/* Global Cheese */}
-        <div style={{
-          backgroundColor: '#fff',
-          borderRadius: '20px',
-          padding: '20px',
-          marginBottom: '20px',
-          width: '90%',
-          maxWidth: '400px',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
-        }}>
-          <img src={getCheeseImage(result.global?.name)} alt={result.global?.name} style={{
-            width: '100%',
-            maxWidth: '400px',
-            height: '200px',
-            objectFit: 'cover',
-            borderRadius: '15px',
-            marginBottom: '15px'
-          }} />
-          <h2 style={{ fontSize: '1.5rem' }}>🧀 Global Cheese:</h2>
-          <p>{result.global?.name}</p>
+          {/* Global Cheese */}
+          <div style={{
+            backgroundColor: '#fff',
+            borderRadius: '20px',
+            padding: '20px',
+            marginBottom: '20px',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+          }}>
+            <img src={getCheeseImage(result.global?.name)} alt={result.global?.name} style={{
+              width: '100%',
+              height: '200px',
+              objectFit: 'cover',
+              borderRadius: '15px',
+              marginBottom: '15px'
+            }} />
+            <h2 style={{ fontSize: '1.5rem' }}>🧀 Global Cheese:</h2>
+            <p>{result.global?.name}</p>
+          </div>
+
+          {/* Turkish Discovery */}
+          <div style={{
+            backgroundColor: '#fff',
+            borderRadius: '20px',
+            padding: '20px',
+            marginBottom: '20px',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+          }}>
+            <img src={getCheeseImage(result.turkish?.name)} alt={result.turkish?.name} style={{
+              width: '100%',
+              height: '200px',
+              objectFit: 'cover',
+              borderRadius: '15px',
+              marginBottom: '15px'
+            }} />
+            <h2 style={{ fontSize: '1.5rem' }}>🇹🇷 Turkish Discovery:</h2>
+            <p>{result.turkish?.name}</p>
+          </div>
         </div>
 
-        {/* Turkish Discovery */}
-        <div style={{
-          backgroundColor: '#fff',
-          borderRadius: '20px',
-          padding: '20px',
-          marginBottom: '20px',
-          width: '90%',
-          maxWidth: '400px',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
-        }}>
-          <img src={getCheeseImage(result.turkish?.name)} alt={result.turkish?.name} style={{
-            width: '100%',
-            maxWidth: '400px',
-            height: '200px',
-            objectFit: 'cover',
-            borderRadius: '15px',
-            marginBottom: '15px'
-          }} />
-          <h2 style={{ fontSize: '1.5rem' }}>🇹🇷 Turkish Discovery:</h2>
-          <p>{result.turkish?.name}</p>
-        </div>
-
-        {/* WhatsApp Share Only */}
-        <a 
-          href="https://api.whatsapp.com/send?text=I found my perfect cheese match with The Cheese Quiz! 🧀 Discover yours too at https://the-cheese-quiz.vercel.app/" 
-          target="_blank" 
-          rel="noopener noreferrer"
+        {/* 📸 Share Result Button */}
+        <button
+          onClick={captureResult}
           style={{
             marginTop: '10px',
-            marginBottom: '20px',
-            backgroundColor: '#25D366',
+            backgroundColor: '#38bdf8',
             padding: '12px 24px',
             border: 'none',
             borderRadius: '9999px',
             fontSize: '1rem',
             fontWeight: 'bold',
-            textDecoration: 'none',
+            cursor: 'pointer',
             color: 'white'
           }}
         >
-          📲 Share on WhatsApp
-        </a>
+          📸 Share Your Result
+        </button>
 
         {/* Try Again */}
         <button
           onClick={() => window.location.href = '/'}
           style={{
+            marginTop: '20px',
             backgroundColor: '#facc15',
             padding: '12px 24px',
             border: 'none',
@@ -184,10 +189,10 @@ export default function Quiz() {
         >
           🔁 Try Again
         </button>
+
       </motion.div>
     );
   }
-
   return (
     <motion.div 
       initial={{ opacity: 0.2, y: 20 }} 
@@ -205,7 +210,7 @@ export default function Quiz() {
         textAlign: 'center'
       }}>
       
-      {/* Image */}
+      {/* Question Image */}
       <img
         src={questions[currentQuestion].image}
         alt="Question Visual"
@@ -219,7 +224,7 @@ export default function Quiz() {
         }}
       />
 
-      {/* Question */}
+      {/* Question Text */}
       <h2 style={{ fontSize: '1.8rem', marginBottom: '1rem' }}>
         {questions[currentQuestion].question}
       </h2>
