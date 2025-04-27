@@ -1,6 +1,5 @@
 import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import html2canvas from 'html2canvas'; // sonuç resmi için ekledik
 
 const questions = [
   {
@@ -83,14 +82,16 @@ export default function Quiz() {
   };
   if (result) {
     const captureResult = async () => {
-      if (resultRef.current) {
-        const canvas = await html2canvas(resultRef.current);
-        const link = document.createElement('a');
-        link.download = 'my-cheese-result.png';
-        link.href = canvas.toDataURL();
-        link.click();
-      }
-    };
+  if (resultRef.current) {
+    const html2canvas = window.html2canvas; // Tarayıcıdan çağır
+    const canvas = await html2canvas(resultRef.current);
+    const link = document.createElement('a');
+    link.download = 'my-cheese-result.png';
+    link.href = canvas.toDataURL();
+    link.click();
+  }
+};
+
 
     return (
       <motion.div 
