@@ -100,6 +100,23 @@ export default function ShareResult({ globalCheese, turkishCheese }) {
       >
         📸 Share Your Result
       </button>
+          <button
+  onClick={() => window.location.href = '/'}
+  style={{
+    marginTop: '15px',
+    backgroundColor: '#facc15',
+    padding: '12px 24px',
+    border: 'none',
+    borderRadius: '9999px',
+    fontSize: '1rem',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    color: '#333'
+  }}
+>
+  🔁 Try Again
+</button>
+
 
     </div>
   );
