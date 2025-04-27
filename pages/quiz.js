@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import ShareResult from '@/components/ShareResult';
+import ShareResult from '../components/ShareResult';
 
 const questions = [
   {
