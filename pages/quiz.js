@@ -2,17 +2,21 @@ import { useState } from 'react';
 import ShareResult from '../components/ShareResult';
 
 const questions = [
-  { question: "What's your ideal cheese texture?", options: ["Soft", "Firm", "Crumbly", "Stringy", "Hard", "Creamy"], image: "/images/texture.jpg" },
-  { question: "Which flavor do you prefer?", options: ["Mild", "Sharp", "Nutty", "Strong", "Light", "Sour"], image: "/images/flavor.jpg" },
-  { question: "How would you describe your food personality?", options: ["Elegant", "Classic", "Rustic", "Playful", "Healthy", "Smoky"], image: "/images/personality.jpg" },
-  { question: "How do you usually enjoy cheese?", options: ["On its own", "In a salad", "With bread", "Melted", "With wine", "With fruits"], image: "/images/enjoy.jpg" },
-  { question: "Which region's food do you like most?", options: ["Mediterranean", "French", "British", "Middle Eastern", "Asian", "American"], image: "/images/region.jpg" },
-  { question: "Which milk type do you prefer?", options: ["Cow", "Sheep", "Goat", "Buffalo", "Plant-based"], image: "/images/milk.jpg" },
-  { question: "Favorite drink with cheese?", options: ["Red Wine", "White Wine", "Beer", "Tea", "Water", "Juice"], image: "/images/drink.jpg" },
-  { question: "Ideal side food with cheese?", options: ["Bread", "Crackers", "Fruits", "Vegetables", "Nuts", "Meats"], image: "/images/side.jpg" },
-  { question: "How do you like your cheese served?", options: ["Cold", "Room Temperature", "Melted", "Grilled", "Baked"], image: "/images/serve.jpg" },
-  { question: "Where do you usually eat cheese?", options: ["At a party", "Picnic", "Restaurant", "Home", "Gourmet tasting", "Street food"], image: "/images/place.jpg" },
-  { question: "Which color do you associate with your perfect cheese?", options: ["White", "Yellow", "Orange", "Blue", "Green", "Brown"], image: "/images/color.jpg" }
+  { question: "What's your ideal cheese texture?", options: ["Soft", "Firm", "Crumbly", "Stringy", "Hard", "Creamy"], image: "/images/texture.jpg", type: "choice" },
+  { question: "Which flavor do you prefer?", options: ["Mild", "Sharp", "Nutty", "Strong", "Light", "Sour"], image: "/images/flavor.jpg", type: "choice" },
+  { question: "How would you describe your food personality?", options: ["Elegant", "Classic", "Rustic", "Playful", "Healthy", "Smoky"], image: "/images/personality.jpg", type: "choice" },
+  { question: "How do you usually enjoy cheese?", options: ["On its own", "In a salad", "With bread", "Melted", "With wine", "With fruits"], image: "/images/enjoy.jpg", type: "choice" },
+  { question: "Which region's food do you like most?", options: ["Mediterranean", "French", "British", "Middle Eastern", "Asian", "American"], image: "/images/region.jpg", type: "choice" },
+  { question: "Which milk type do you prefer?", options: ["Cow", "Sheep", "Goat", "Buffalo", "Plant-based"], image: "/images/milk.jpg", type: "choice" },
+  { question: "Favorite drink with cheese?", options: ["Red Wine", "White Wine", "Beer", "Tea", "Water", "Juice"], image: "/images/drink.jpg", type: "choice" },
+  { question: "Ideal side food with cheese?", options: ["Bread", "Crackers", "Fruits", "Vegetables", "Nuts", "Meats"], image: "/images/side.jpg", type: "choice" },
+  { question: "How do you like your cheese served?", options: ["Cold", "Room Temperature", "Melted", "Grilled", "Baked"], image: "/images/serve.jpg", type: "choice" },
+  { question: "Where do you usually eat cheese?", options: ["At a party", "Picnic", "Restaurant", "Home", "Gourmet tasting", "Street food"], image: "/images/place.jpg", type: "choice" },
+  { question: "Which color do you associate with your perfect cheese?", options: ["White", "Yellow", "Orange", "Blue", "Green", "Brown"], image: "/images/color.jpg", type: "choice" },
+  { question: "In which country did feta cheese originate?", options: ["Greece", "France", "Italy", "Turkey", "Spain"], image: "/images/feta.jpg", type: "knowledge", correctAnswer: "Greece" },
+  { question: "Which cheese is traditionally made with mold?", options: ["Blue Cheese", "Mozzarella", "Ricotta", "Cheddar", "Halloumi"], image: "/images/blue.jpg", type: "knowledge", correctAnswer: "Blue Cheese" },
+  { question: "What milk is traditionally used in Parmesan cheese?", options: ["Cow Milk", "Goat Milk", "Sheep Milk", "Buffalo Milk", "Plant-based Milk"], image: "/images/parmesan.jpg", type: "knowledge", correctAnswer: "Cow Milk" },
+  { question: "Which country is famous for Manchego cheese?", options: ["Spain", "Italy", "France", "Germany", "Turkey"], image: "/images/manchego.jpg", type: "knowledge", correctAnswer: "Spain" }
 ];
 
 const cheeseData = [
@@ -39,12 +43,18 @@ const getCheeseImage = (name) => {
 export default function Quiz() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState([]);
+  const [knowledgeScore, setKnowledgeScore] = useState(0);
   const [result, setResult] = useState(null);
 
   const handleAnswer = (option) => {
     const newAnswers = [...answers];
-    newAnswers[currentQuestion] = option; // Seçimi güncelle
+    newAnswers[currentQuestion] = option;
     setAnswers(newAnswers);
+
+    const currentQ = questions[currentQuestion];
+    if (currentQ.type === "knowledge" && option === currentQ.correctAnswer) {
+      setKnowledgeScore(prev => prev + 1);
+    }
 
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
@@ -86,6 +96,8 @@ export default function Quiz() {
           name: result.turkish?.name,
           image: getCheeseImage(result.turkish?.name)
         }}
+        knowledgeScore={knowledgeScore}
+        totalKnowledge={4}
       />
     );
   }
