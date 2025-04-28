@@ -1,6 +1,24 @@
 import Link from 'next/link';
 
 export default function ShareResult({ globalCheese, turkishCheese, knowledgeScore, totalKnowledge }) {
+  
+  const getFunnyMessage = (score) => {
+    switch (score) {
+      case 0:
+        return "🤣 Have you even eaten cheese before?";
+      case 1:
+        return "😂 Okay, okay... maybe you've nibbled on some cheese once!";
+      case 2:
+        return "👏 Not bad! You're on your way to becoming a Cheese Taster!";
+      case 3:
+        return "❤️ Almost perfect! You're definitely a Cheese Lover!";
+      case 4:
+        return "👑 I bow before you, Great Cheese Guru!";
+      default:
+        return "";
+    }
+  };
+
   return (
     <div style={{
       minHeight: '100vh',
@@ -52,11 +70,14 @@ export default function ShareResult({ globalCheese, turkishCheese, knowledgeScor
           <h3 style={{ fontSize: '1.2rem', color: '#333' }}>
             🎓 Knowledge Quiz: {knowledgeScore} out of {totalKnowledge} correct!
           </h3>
-          {knowledgeScore === totalKnowledge && (
-            <p style={{ fontSize: '1rem', color: '#4caf50' }}>
-              🏆 Perfect score! You're a Cheese Expert!
-            </p>
-          )}
+          <p style={{
+            fontSize: '1rem',
+            marginTop: '10px',
+            color: '#555',
+            maxWidth: '300px'
+          }}>
+            {getFunnyMessage(knowledgeScore)}
+          </p>
         </div>
       )}
 
