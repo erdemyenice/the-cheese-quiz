@@ -26,6 +26,36 @@ const questions = [
     question: "Which region's food do you like most?",
     options: ["Mediterranean", "French", "British", "Middle Eastern", "Asian", "American"],
     image: "/images/region.jpg"
+  },
+  {
+    question: "Which milk type do you prefer?",
+    options: ["Cow", "Sheep", "Goat", "Buffalo", "Plant-based"],
+    image: "/images/milk.jpg"
+  },
+  {
+    question: "Favorite drink with cheese?",
+    options: ["Red Wine", "White Wine", "Beer", "Tea", "Water", "Juice"],
+    image: "/images/drink.jpg"
+  },
+  {
+    question: "Ideal side food with cheese?",
+    options: ["Bread", "Crackers", "Fruits", "Vegetables", "Nuts", "Meats"],
+    image: "/images/side.jpg"
+  },
+  {
+    question: "How do you like your cheese served?",
+    options: ["Cold", "Room Temperature", "Melted", "Grilled", "Baked"],
+    image: "/images/serve.jpg"
+  },
+  {
+    question: "Where do you usually eat cheese?",
+    options: ["At a party", "Picnic", "Restaurant", "Home", "Gourmet tasting", "Street food"],
+    image: "/images/place.jpg"
+  },
+  {
+    question: "Which color do you associate with your perfect cheese?",
+    options: ["White", "Yellow", "Orange", "Blue", "Green", "Brown"],
+    image: "/images/color.jpg"
   }
 ];
 
