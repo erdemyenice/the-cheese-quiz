@@ -9,73 +9,53 @@ export default function Home() {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      justifyContent: 'center',
       fontFamily: 'Poppins, sans-serif',
       textAlign: 'center',
-      padding: '20px',
-      position: 'relative'
+      padding: '40px 20px',
     }}>
       
-{/* Hero Section */}
-<div style={{
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  height: '90vh', // ekranın %90'ı kaplasın
-  position: 'relative'
-}}>
-  <h1 style={{
-    fontSize: '3rem',
-    marginBottom: '1rem',
-    color: '#333'
-  }}>
-    🧀 Discover Your Perfect Cheese!
-  </h1>
-
-  <p style={{
-    fontSize: '1.2rem',
-    marginBottom: '2rem',
-    color: '#555'
-  }}>
-    Take the quiz and explore the flavors waiting for you.
-  </p>
-
-  {/* Animated Start Quiz Button */}
-  <Link href="/quiz">
-    <motion.button
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.95 }}
-      style={{
-        backgroundColor: '#facc15',
-        padding: '18px 36px',
-        fontSize: '1.5rem',
-        fontWeight: 'bold',
-        borderRadius: '9999px',
-        border: 'none',
-        cursor: 'pointer',
-        transition: 'background 0.3s',
+      {/* Hero Section */}
+      <div style={{
+        marginTop: '40px',
         marginBottom: '20px'
-      }}
-    >
-      🚀 Start The Quiz
-    </motion.button>
-  </Link>
+      }}>
+        <h1 style={{
+          fontSize: '2.8rem',
+          marginBottom: '1rem',
+          color: '#333'
+        }}>
+          🧀 DISCOVER YOUR PERFECT CHEESE!
+        </h1>
 
-  {/* Scroll Down Icon (ŞİMDİ Hero içinde!) */}
-  <div style={{
-    position: 'absolute',
-    bottom: '10px',
-    animation: 'bounce 2s infinite'
-  }}>
-    <span style={{
-      fontSize: '2rem',
-      color: '#facc15'
-    }}>⬇️</span>
-  </div>
+        <p style={{
+          fontSize: '1.2rem',
+          marginBottom: '2rem',
+          color: '#555'
+        }}>
+          Take the quiz and explore the flavors waiting for you.
+        </p>
 
-</div>
-
+        {/* Start Quiz Button */}
+        <Link href="/quiz">
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            style={{
+              backgroundColor: '#facc15',
+              padding: '16px 32px',
+              fontSize: '1.4rem',
+              fontWeight: 'bold',
+              borderRadius: '9999px',
+              border: 'none',
+              cursor: 'pointer',
+              transition: 'background 0.3s',
+              marginBottom: '20px'
+            }}
+          >
+            🚀 Start The Quiz
+          </motion.button>
+        </Link>
+      </div>
 
       {/* Hero Image */}
       <img 
@@ -86,26 +66,15 @@ export default function Home() {
           maxWidth: '400px',
           height: 'auto',
           borderRadius: '20px',
-          marginTop: '20px'
+          marginTop: '10px',
+          marginBottom: '50px'
         }}
       />
 
-      {/* Scroll Down Icon */}
-      <div style={{
-        position: 'absolute',
-        bottom: '20px',
-        animation: 'bounce 2s infinite'
-      }}>
-        <span style={{
-          fontSize: '2rem',
-          color: '#facc15'
-        }}>⬇️</span>
-      </div>
-
       {/* What is The Cheese Quiz Section */}
       <div style={{
-        marginTop: '80px',
-        maxWidth: '600px'
+        maxWidth: '600px',
+        padding: '0 20px'
       }}>
         <h2 style={{
           fontSize: '2rem',
@@ -124,28 +93,12 @@ export default function Home() {
 
       {/* Footer */}
       <p style={{
-        marginTop: '50px',
+        marginTop: '40px',
         fontSize: '0.8rem',
         color: '#999'
       }}>
         Made with ❤️ by The Cheese Quiz
       </p>
-
-      {/* Keyframes for Bounce Animation */}
-      <style jsx>{`
-        @keyframes bounce {
-          0%, 20%, 50%, 80%, 100% {
-            transform: translateY(0);
-          }
-          40% {
-            transform: translateY(-10px);
-          }
-          60% {
-            transform: translateY(-5px);
-          }
-        }
-      `}</style>
-
     </div>
   );
 }
