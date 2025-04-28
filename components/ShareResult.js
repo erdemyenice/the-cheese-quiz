@@ -1,123 +1,84 @@
-import { useRef } from 'react';
+import Link from 'next/link';
 
-export default function ShareResult({ globalCheese, turkishCheese }) {
-  const resultRef = useRef();
-
-  const captureResult = async () => {
-    const html2canvas = window.html2canvas;
-    const canvas = await html2canvas(resultRef.current);
-    const link = document.createElement('a');
-    link.download = 'my-cheese-result.png';
-    link.href = canvas.toDataURL();
-    link.click();
-  };
-
+export default function ShareResult({ globalCheese, turkishCheese, knowledgeScore, totalKnowledge }) {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #fef9c3, #ffffff)',
+      backgroundColor: '#fef9c3',
+      fontFamily: 'Poppins, sans-serif',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+      justifyContent: 'flex-start',
       padding: '20px',
-      fontFamily: 'Poppins, sans-serif'
+      textAlign: 'center'
     }}>
       
-      <div ref={resultRef} style={{
-        width: '100%',
-        maxWidth: '400px',
-        backgroundColor: 'transparent',
-        textAlign: 'center'
-      }}>
-        <h1 style={{
-          fontSize: '2.5rem',
-          marginBottom: '10px',
-          color: '#333'
-        }}>🎉 Congratulations!</h1>
+      <h1 style={{ fontSize: '2rem', marginBottom: '20px', color: '#333' }}>
+        🧀 Your Cheese Matches!
+      </h1>
 
-        <p style={{
-          fontSize: '1.2rem',
-          marginBottom: '30px',
-          color: '#555'
-        }}>You found your perfect cheese match!</p>
-
-        {/* Global Cheese Card */}
-        <div style={{
-          backgroundColor: '#fff',
-          borderRadius: '20px',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-          padding: '20px',
-          marginBottom: '20px'
-        }}>
-          <img src={globalCheese.image} alt={globalCheese.name} style={{
-            width: '100%',
-            height: '200px',
-            objectFit: 'cover',
-            borderRadius: '15px'
-          }} />
-          <h2 style={{ fontSize: '1.5rem', marginTop: '15px' }}>🧀 Global Cheese</h2>
-          <p>{globalCheese.name}</p>
-        </div>
-
-        {/* Turkish Cheese Card */}
-        <div style={{
-          backgroundColor: '#fff',
-          borderRadius: '20px',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-          padding: '20px',
-          marginBottom: '20px'
-        }}>
-          <img src={turkishCheese.image} alt={turkishCheese.name} style={{
-            width: '100%',
-            height: '200px',
-            objectFit: 'cover',
-            borderRadius: '15px'
-          }} />
-          <h2 style={{ fontSize: '1.5rem', marginTop: '15px' }}>🇹🇷 Turkish Discovery</h2>
-          <p>{turkishCheese.name}</p>
-        </div>
-
-        <p style={{
-          fontSize: '0.8rem',
-          marginTop: '20px',
-          color: '#888'
-        }}>Made with ❤️ by The Cheese Quiz</p>
+      {/* Global Cheese */}
+      <div style={{ marginBottom: '30px' }}>
+        <h2 style={{ fontSize: '1.5rem', marginBottom: '10px' }}>{globalCheese.name}</h2>
+        <img 
+          src={globalCheese.image}
+          alt={globalCheese.name}
+          style={{
+            width: '250px',
+            height: 'auto',
+            borderRadius: '20px'
+          }}
+        />
       </div>
 
-      <button
-        onClick={captureResult}
-        style={{
-          marginTop: '30px',
-          backgroundColor: '#38bdf8',
-          padding: '12px 24px',
-          border: 'none',
-          borderRadius: '9999px',
-          fontSize: '1rem',
+      {/* Turkish Cheese */}
+      <div style={{ marginBottom: '30px' }}>
+        <h2 style={{ fontSize: '1.5rem', marginBottom: '10px' }}>{turkishCheese.name}</h2>
+        <img 
+          src={turkishCheese.image}
+          alt={turkishCheese.name}
+          style={{
+            width: '250px',
+            height: 'auto',
+            borderRadius: '20px'
+          }}
+        />
+      </div>
+
+      {/* Knowledge Score */}
+      {typeof knowledgeScore !== 'undefined' && (
+        <div style={{ marginBottom: '30px' }}>
+          <h3 style={{ fontSize: '1.2rem', color: '#333' }}>
+            🎓 Knowledge Quiz: {knowledgeScore} out of {totalKnowledge} correct!
+          </h3>
+          {knowledgeScore === totalKnowledge && (
+            <p style={{ fontSize: '1rem', color: '#4caf50' }}>
+              🏆 Perfect score! You're a Cheese Expert!
+            </p>
+          )}
+        </div>
+      )}
+
+      {/* Try Again Button */}
+      <Link href="/quiz">
+        <button style={{
+          backgroundColor: '#facc15',
+          padding: '15px 30px',
+          fontSize: '1.2rem',
           fontWeight: 'bold',
+          borderRadius: '9999px',
+          border: 'none',
           cursor: 'pointer',
-          color: 'white'
+          marginTop: '20px',
+          transition: 'background 0.3s'
         }}
-      >
-        📸 Share Your Result
-      </button>
-          <button
-  onClick={() => window.location.href = '/'}
-  style={{
-    marginTop: '15px',
-    backgroundColor: '#facc15',
-    padding: '12px 24px',
-    border: 'none',
-    borderRadius: '9999px',
-    fontSize: '1rem',
-    fontWeight: 'bold',
-    cursor: 'pointer',
-    color: '#333'
-  }}
->
-  🔁 Try Again
-</button>
-
-
+        onMouseOver={(e) => e.target.style.backgroundColor = '#fbbf24'}
+        onMouseOut={(e) => e.target.style.backgroundColor = '#facc15'}
+        >
+          🔁 Try Again
+        </button>
+      </Link>
     </div>
   );
 }
