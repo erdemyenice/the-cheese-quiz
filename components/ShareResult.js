@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router';
-import html2canvas from 'html2canvas';
 
 export default function ShareResult({ globalCheese, turkishCheese, knowledgeScore, totalKnowledge }) {
   const router = useRouter();
@@ -9,7 +8,7 @@ export default function ShareResult({ globalCheese, turkishCheese, knowledgeScor
       case 0:
         return "🤣 Have you even eaten cheese before?";
       case 1:
-        return "😂 Okay, okay... maybe you've nibbled on some cheese once!";
+        return "😂 Maybe you've nibbled on some cheese once!";
       case 2:
         return "👏 Not bad! You're on your way to becoming a Cheese Taster!";
       case 3:
@@ -28,6 +27,7 @@ export default function ShareResult({ globalCheese, turkishCheese, knowledgeScor
   const handleDownloadResult = async () => {
     const element = document.getElementById('result-section');
     if (element) {
+      const html2canvas = (await import('html2canvas')).default;
       const canvas = await html2canvas(element, { scale: 2 });
       const link = document.createElement('a');
       link.download = 'my_cheese_quiz_result.png';
@@ -49,14 +49,13 @@ export default function ShareResult({ globalCheese, turkishCheese, knowledgeScor
       textAlign: 'center'
     }}>
 
-      {/* SONUÇLARIN HEPSİ BU ALANA */}
+      {/* SONUÇLAR */}
       <div id="result-section" style={{ width: '100%', maxWidth: '500px' }}>
         
         <h1 style={{ fontSize: '2rem', marginBottom: '20px', color: '#333' }}>
           🧀 Your Cheese Matches!
         </h1>
 
-        {/* Global Cheese */}
         <div style={{ marginBottom: '30px' }}>
           <h2 style={{ fontSize: '1.5rem', marginBottom: '10px' }}>{globalCheese.name}</h2>
           <img 
@@ -70,7 +69,6 @@ export default function ShareResult({ globalCheese, turkishCheese, knowledgeScor
           />
         </div>
 
-        {/* Turkish Cheese */}
         <div style={{ marginBottom: '30px' }}>
           <h2 style={{ fontSize: '1.5rem', marginBottom: '10px' }}>{turkishCheese.name}</h2>
           <img 
@@ -84,7 +82,6 @@ export default function ShareResult({ globalCheese, turkishCheese, knowledgeScor
           />
         </div>
 
-        {/* Knowledge Score */}
         {typeof knowledgeScore !== 'undefined' && (
           <div style={{ marginBottom: '30px' }}>
             <h3 style={{ fontSize: '1.2rem', color: '#333' }}>
