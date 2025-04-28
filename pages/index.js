@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 export default function Home() {
   return (
@@ -11,7 +12,8 @@ export default function Home() {
       justifyContent: 'center',
       fontFamily: 'Poppins, sans-serif',
       textAlign: 'center',
-      padding: '20px'
+      padding: '20px',
+      position: 'relative'
     }}>
       
       {/* Hero Section */}
@@ -31,24 +33,27 @@ export default function Home() {
         Take the quiz and explore the flavors waiting for you.
       </p>
 
-      {/* Start Quiz Button */}
+      {/* Animated Start Quiz Button */}
       <Link href="/quiz">
-        <button style={{
-          backgroundColor: '#facc15',
-          padding: '15px 30px',
-          fontSize: '1.2rem',
-          fontWeight: 'bold',
-          borderRadius: '9999px',
-          border: 'none',
-          cursor: 'pointer',
-          transition: 'background 0.3s',
-          marginBottom: '40px'
-        }}
-        onMouseOver={(e) => e.target.style.backgroundColor = '#fbbf24'}
-        onMouseOut={(e) => e.target.style.backgroundColor = '#facc15'}
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          style={{
+            backgroundColor: '#facc15',
+            padding: '18px 36px',
+            fontSize: '1.5rem',
+            fontWeight: 'bold',
+            borderRadius: '9999px',
+            border: 'none',
+            cursor: 'pointer',
+            transition: 'background 0.3s',
+            marginBottom: '40px'
+          }}
+          onMouseOver={(e) => e.target.style.backgroundColor = '#fbbf24'}
+          onMouseOut={(e) => e.target.style.backgroundColor = '#facc15'}
         >
           🚀 Start The Quiz
-        </button>
+        </motion.button>
       </Link>
 
       {/* Hero Image */}
@@ -64,9 +69,21 @@ export default function Home() {
         }}
       />
 
+      {/* Scroll Down Icon */}
+      <div style={{
+        position: 'absolute',
+        bottom: '20px',
+        animation: 'bounce 2s infinite'
+      }}>
+        <span style={{
+          fontSize: '2rem',
+          color: '#facc15'
+        }}>⬇️</span>
+      </div>
+
       {/* What is The Cheese Quiz Section */}
       <div style={{
-        marginTop: '50px',
+        marginTop: '80px',
         maxWidth: '600px'
       }}>
         <h2 style={{
@@ -92,6 +109,21 @@ export default function Home() {
       }}>
         Made with ❤️ by The Cheese Quiz
       </p>
+
+      {/* Keyframes for Bounce Animation */}
+      <style jsx>{`
+        @keyframes bounce {
+          0%, 20%, 50%, 80%, 100% {
+            transform: translateY(0);
+          }
+          40% {
+            transform: translateY(-10px);
+          }
+          60% {
+            transform: translateY(-5px);
+          }
+        }
+      `}</style>
 
     </div>
   );
