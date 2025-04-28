@@ -2,61 +2,17 @@ import { useState } from 'react';
 import ShareResult from '../components/ShareResult';
 
 const questions = [
-  {
-    question: "What's your ideal cheese texture?",
-    options: ["Soft", "Firm", "Crumbly", "Stringy", "Hard", "Creamy"],
-    image: "/images/texture.jpg"
-  },
-  {
-    question: "Which flavor do you prefer?",
-    options: ["Mild", "Sharp", "Nutty", "Strong", "Light", "Sour"],
-    image: "/images/flavor.jpg"
-  },
-  {
-    question: "How would you describe your food personality?",
-    options: ["Elegant", "Classic", "Rustic", "Playful", "Healthy", "Smoky"],
-    image: "/images/personality.jpg"
-  },
-  {
-    question: "How do you usually enjoy cheese?",
-    options: ["On its own", "In a salad", "With bread", "Melted", "With wine", "With fruits"],
-    image: "/images/enjoy.jpg"
-  },
-  {
-    question: "Which region's food do you like most?",
-    options: ["Mediterranean", "French", "British", "Middle Eastern", "Asian", "American"],
-    image: "/images/region.jpg"
-  },
-  {
-    question: "Which milk type do you prefer?",
-    options: ["Cow", "Sheep", "Goat", "Buffalo", "Plant-based"],
-    image: "/images/milk.jpg"
-  },
-  {
-    question: "Favorite drink with cheese?",
-    options: ["Red Wine", "White Wine", "Beer", "Tea", "Water", "Juice"],
-    image: "/images/drink.jpg"
-  },
-  {
-    question: "Ideal side food with cheese?",
-    options: ["Bread", "Crackers", "Fruits", "Vegetables", "Nuts", "Meats"],
-    image: "/images/side.jpg"
-  },
-  {
-    question: "How do you like your cheese served?",
-    options: ["Cold", "Room Temperature", "Melted", "Grilled", "Baked"],
-    image: "/images/serve.jpg"
-  },
-  {
-    question: "Where do you usually eat cheese?",
-    options: ["At a party", "Picnic", "Restaurant", "Home", "Gourmet tasting", "Street food"],
-    image: "/images/place.jpg"
-  },
-  {
-    question: "Which color do you associate with your perfect cheese?",
-    options: ["White", "Yellow", "Orange", "Blue", "Green", "Brown"],
-    image: "/images/color.jpg"
-  }
+  { question: "What's your ideal cheese texture?", options: ["Soft", "Firm", "Crumbly", "Stringy", "Hard", "Creamy"], image: "/images/texture.jpg" },
+  { question: "Which flavor do you prefer?", options: ["Mild", "Sharp", "Nutty", "Strong", "Light", "Sour"], image: "/images/flavor.jpg" },
+  { question: "How would you describe your food personality?", options: ["Elegant", "Classic", "Rustic", "Playful", "Healthy", "Smoky"], image: "/images/personality.jpg" },
+  { question: "How do you usually enjoy cheese?", options: ["On its own", "In a salad", "With bread", "Melted", "With wine", "With fruits"], image: "/images/enjoy.jpg" },
+  { question: "Which region's food do you like most?", options: ["Mediterranean", "French", "British", "Middle Eastern", "Asian", "American"], image: "/images/region.jpg" },
+  { question: "Which milk type do you prefer?", options: ["Cow", "Sheep", "Goat", "Buffalo", "Plant-based"], image: "/images/milk.jpg" },
+  { question: "Favorite drink with cheese?", options: ["Red Wine", "White Wine", "Beer", "Tea", "Water", "Juice"], image: "/images/drink.jpg" },
+  { question: "Ideal side food with cheese?", options: ["Bread", "Crackers", "Fruits", "Vegetables", "Nuts", "Meats"], image: "/images/side.jpg" },
+  { question: "How do you like your cheese served?", options: ["Cold", "Room Temperature", "Melted", "Grilled", "Baked"], image: "/images/serve.jpg" },
+  { question: "Where do you usually eat cheese?", options: ["At a party", "Picnic", "Restaurant", "Home", "Gourmet tasting", "Street food"], image: "/images/place.jpg" },
+  { question: "Which color do you associate with your perfect cheese?", options: ["White", "Yellow", "Orange", "Blue", "Green", "Brown"], image: "/images/color.jpg" }
 ];
 
 const cheeseData = [
@@ -86,13 +42,20 @@ export default function Quiz() {
   const [result, setResult] = useState(null);
 
   const handleAnswer = (option) => {
-    const newAnswers = [...answers, option];
+    const newAnswers = [...answers];
+    newAnswers[currentQuestion] = option; // Seçimi güncelle
     setAnswers(newAnswers);
 
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
       calculateResult(newAnswers);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentQuestion > 0) {
+      setCurrentQuestion(currentQuestion - 1);
     }
   };
 
@@ -189,6 +152,25 @@ export default function Quiz() {
           </button>
         ))}
       </div>
+
+      {/* Previous Button */}
+      {currentQuestion > 0 && (
+        <button
+          onClick={handlePrevious}
+          style={{
+            marginTop: '20px',
+            backgroundColor: '#e0e0e0',
+            border: 'none',
+            borderRadius: '9999px',
+            padding: '10px 20px',
+            fontSize: '1rem',
+            cursor: 'pointer',
+            fontWeight: 'bold'
+          }}
+        >
+          ⬅️ Previous
+        </button>
+      )}
 
       {/* Progress Bar */}
       <div style={{
