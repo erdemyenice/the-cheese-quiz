@@ -16,45 +16,66 @@ export default function Home() {
       position: 'relative'
     }}>
       
-      {/* Hero Section */}
-      <h1 style={{
-        fontSize: '3rem',
-        marginBottom: '1rem',
-        color: '#333'
-      }}>
-        🧀 Discover Your Perfect Cheese!
-      </h1>
+{/* Hero Section */}
+<div style={{
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: '90vh', // ekranın %90'ı kaplasın
+  position: 'relative'
+}}>
+  <h1 style={{
+    fontSize: '3rem',
+    marginBottom: '1rem',
+    color: '#333'
+  }}>
+    🧀 Discover Your Perfect Cheese!
+  </h1>
 
-      <p style={{
-        fontSize: '1.2rem',
-        marginBottom: '2rem',
-        color: '#555'
-      }}>
-        Take the quiz and explore the flavors waiting for you.
-      </p>
+  <p style={{
+    fontSize: '1.2rem',
+    marginBottom: '2rem',
+    color: '#555'
+  }}>
+    Take the quiz and explore the flavors waiting for you.
+  </p>
 
-      {/* Animated Start Quiz Button */}
-      <Link href="/quiz">
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-          style={{
-            backgroundColor: '#facc15',
-            padding: '18px 36px',
-            fontSize: '1.5rem',
-            fontWeight: 'bold',
-            borderRadius: '9999px',
-            border: 'none',
-            cursor: 'pointer',
-            transition: 'background 0.3s',
-            marginBottom: '40px'
-          }}
-          onMouseOver={(e) => e.target.style.backgroundColor = '#fbbf24'}
-          onMouseOut={(e) => e.target.style.backgroundColor = '#facc15'}
-        >
-          🚀 Start The Quiz
-        </motion.button>
-      </Link>
+  {/* Animated Start Quiz Button */}
+  <Link href="/quiz">
+    <motion.button
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.95 }}
+      style={{
+        backgroundColor: '#facc15',
+        padding: '18px 36px',
+        fontSize: '1.5rem',
+        fontWeight: 'bold',
+        borderRadius: '9999px',
+        border: 'none',
+        cursor: 'pointer',
+        transition: 'background 0.3s',
+        marginBottom: '20px'
+      }}
+    >
+      🚀 Start The Quiz
+    </motion.button>
+  </Link>
+
+  {/* Scroll Down Icon (ŞİMDİ Hero içinde!) */}
+  <div style={{
+    position: 'absolute',
+    bottom: '10px',
+    animation: 'bounce 2s infinite'
+  }}>
+    <span style={{
+      fontSize: '2rem',
+      color: '#facc15'
+    }}>⬇️</span>
+  </div>
+
+</div>
+
 
       {/* Hero Image */}
       <img 
