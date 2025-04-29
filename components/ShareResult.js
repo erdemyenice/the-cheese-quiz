@@ -23,8 +23,10 @@ export default function ShareResult({ globalCheese, turkishCheese, knowledgeScor
   };
 
   const handleTryAgain = () => {
-    router.push('/quiz');
-  };
+  if (typeof window !== 'undefined') {
+    window.location.href = '/quiz';
+  }
+};
 
   const handleDownloadResult = async () => {
     if (typeof window !== 'undefined') {
