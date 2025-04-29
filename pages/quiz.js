@@ -1,5 +1,50 @@
 import { useState } from 'react';
 import ShareResult from '../components/ShareResult';
+const cheeses = [
+  {
+    name: "Brie",
+    texture: "Soft",
+    flavor: "Mild",
+    personality: "Elegant",
+    occasion: "Fancy Dinner",
+    pairing: "Pair with wine",
+    tradition: "Modern"
+  },
+  {
+    name: "Camembert",
+    texture: "Soft",
+    flavor: "Earthy",
+    personality: "Sophisticated",
+    occasion: "Fancy Dinner",
+    pairing: "Pair with wine",
+    tradition: "Traditional"
+  },
+  // ... diğer tüm 18 peynir burada olacak
+];
+function findBestCheese(userAnswers) {
+  let maxScore = -1;
+  let bestCheeses = [];
+
+  cheeses.forEach((cheese) => {
+    let score = 0;
+    if (cheese.texture === userAnswers.texture) score++;
+    if (cheese.flavor === userAnswers.flavor) score++;
+    if (cheese.personality === userAnswers.personality) score++;
+    if (cheese.occasion === userAnswers.occasion) score++;
+    if (cheese.pairing === userAnswers.pairing) score++;
+    if (cheese.tradition === userAnswers.tradition) score++;
+
+    if (score > maxScore) {
+      maxScore = score;
+      bestCheeses = [cheese];
+    } else if (score === maxScore) {
+      bestCheeses.push(cheese);
+    }
+  });
+
+  const randomIndex = Math.floor(Math.random() * bestCheeses.length);
+  return bestCheeses[randomIndex];
+}
 
 const questions = [
   { question: "What's your ideal cheese texture?", options: ["Soft", "Firm", "Crumbly", "Stringy", "Hard", "Creamy"], image: "/images/texture.jpg", type: "choice" },
@@ -27,6 +72,14 @@ const cheeseData = [
   { name: "Lor", texture: "Soft", flavor: "Light", personality: "Healthy", origin: "Turkey" },
   { name: "Mihaliç", texture: "Hard", flavor: "Salty", personality: "Traditional", origin: "Turkey" }
 ];
+const selectedCheese = findBestCheese({
+  texture: userAnswers.texture,
+  flavor: userAnswers.flavor,
+  personality: userAnswers.personality,
+  occasion: userAnswers.occasion,
+  pairing: userAnswers.pairing,
+  tradition: userAnswers.tradition
+});
 
 const getCheeseImage = (name) => {
   const map = {
