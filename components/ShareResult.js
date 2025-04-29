@@ -1,7 +1,9 @@
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 export default function ShareResult({ globalCheese, turkishCheese, knowledgeScore, totalKnowledge }) {
   const router = useRouter();
+  const [downloading, setDownloading] = useState(false);
 
   const getFunnyMessage = (score) => {
     switch (score) {
@@ -25,15 +27,25 @@ export default function ShareResult({ globalCheese, turkishCheese, knowledgeScor
   };
 
   const handleDownloadResult = async () => {
-    const element = document.getElementById('result-section');
-    if (element) {
+    if (typeof window !== 'undefined') {
+      setDownloading(true);
       const html2canvas = (await import('html2canvas')).default;
-      const canvas = await html2canvas(element, { scale: 2 });
-      const link = document.createElement('a');
-      link.download = 'my_cheese_quiz_result.png';
-      link.href = canvas.toDataURL('image/png');
-      link.click();
+      const element = document.getElementById('result-section');
+      if (element) {
+        const canvas = await html2canvas(element, { scale: 2 });
+        const link = document.createElement('a');
+        link.download = 'my_cheese_quiz_result.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      }
+      setDownloading(false);
     }
+  };
+
+  const handleShareResult = () => {
+    const message = `I found my perfect cheese match on The Cheese Quiz! 🧀 Try it yourself! https://the-cheese-quiz.vercel.app/`;
+    const url = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
   };
 
   return (
@@ -48,8 +60,6 @@ export default function ShareResult({ globalCheese, turkishCheese, knowledgeScor
       padding: '20px',
       textAlign: 'center'
     }}>
-
-      {/* SONUÇLAR */}
       <div id="result-section" style={{ width: '100%', maxWidth: '500px' }}>
         
         <h1 style={{ fontSize: '2rem', marginBottom: '20px', color: '#333' }}>
@@ -100,7 +110,7 @@ export default function ShareResult({ globalCheese, turkishCheese, knowledgeScor
       </div>
 
       {/* Download Result Button */}
-      <button onClick={handleDownloadResult} style={{
+      <button onClick={handleDownloadResult} disabled={downloading} style={{
         backgroundColor: '#4caf50',
         padding: '12px 24px',
         fontSize: '1rem',
@@ -110,12 +120,28 @@ export default function ShareResult({ globalCheese, turkishCheese, knowledgeScor
         cursor: 'pointer',
         marginTop: '20px',
         color: 'white',
+        transition: 'background 0.3s',
+        opacity: downloading ? 0.6 : 1
+      }}
+      >
+        {downloading ? 'Preparing...' : '📸 Download Your Result'}
+      </button>
+
+      {/* Share Result Button */}
+      <button onClick={handleShareResult} style={{
+        backgroundColor: '#3b82f6',
+        padding: '12px 24px',
+        fontSize: '1rem',
+        fontWeight: 'bold',
+        borderRadius: '9999px',
+        border: 'none',
+        cursor: 'pointer',
+        marginTop: '10px',
+        color: 'white',
         transition: 'background 0.3s'
       }}
-      onMouseOver={(e) => e.target.style.backgroundColor = '#45a049'}
-      onMouseOut={(e) => e.target.style.backgroundColor = '#4caf50'}
       >
-        📸 Download Your Result
+        📤 Share Your Result
       </button>
 
       {/* Try Again Button */}
@@ -130,8 +156,6 @@ export default function ShareResult({ globalCheese, turkishCheese, knowledgeScor
         marginTop: '10px',
         transition: 'background 0.3s'
       }}
-      onMouseOver={(e) => e.target.style.backgroundColor = '#fbbf24'}
-      onMouseOut={(e) => e.target.style.backgroundColor = '#facc15'}
       >
         🔁 Try Again
       </button>
