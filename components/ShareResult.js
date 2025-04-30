@@ -1,167 +1,101 @@
+import React from 'react';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 
-export default function ShareResult({ globalCheese, turkishCheese, knowledgeScore, totalKnowledge }) {
+export default function ShareResult({ globalCheese, turkishCheese, correctAnswers = 0 }) {
   const router = useRouter();
-  const [downloading, setDownloading] = useState(false);
-
-  const getFunnyMessage = (score) => {
-    switch (score) {
-      case 0:
-        return "🤣 Have you even eaten cheese before?";
-      case 1:
-        return "😂 Maybe you've nibbled on some cheese once!";
-      case 2:
-        return "👏 Not bad! You're on your way to becoming a Cheese Taster!";
-      case 3:
-        return "❤️ Almost perfect! You're definitely a Cheese Lover!";
-      case 4:
-        return "👑 I bow before you, Great Cheese Guru!";
-      default:
-        return "";
-    }
-  };
 
   const handleTryAgain = () => {
-  if (typeof window !== 'undefined') {
-    window.location.href = '/quiz';
-  }
-};
-
-  const handleDownloadResult = async () => {
     if (typeof window !== 'undefined') {
-      setDownloading(true);
-      const html2canvas = (await import('html2canvas')).default;
-      const element = document.getElementById('result-section');
-      if (element) {
-        const canvas = await html2canvas(element, { scale: 2 });
-        const link = document.createElement('a');
-        link.download = 'my_cheese_quiz_result.png';
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-      }
-      setDownloading(false);
+      window.location.href = '/quiz';
     }
   };
 
-  const handleShareResult = () => {
-    const message = `I found my perfect cheese match on The Cheese Quiz! 🧀 Try it yourself! https://the-cheese-quiz.vercel.app/`;
-    const url = `https://wa.me/?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
+  const handleShare = () => {
+    const shareText = `🧀 I found my perfect cheese match on The Cheese Quiz: ${globalCheese.name}!`;
+    const url = 'https://the-cheese-quiz.vercel.app';
+    if (navigator.share) {
+      navigator.share({
+        title: 'The Cheese Quiz',
+        text: shareText,
+        url: url,
+      });
+    } else {
+      alert('Sharing not supported on this device. Please copy the link manually.');
+    }
+  };
+
+  // 🎯 Komik bilgi sonucu mesajı
+  const getKnowledgeMessage = () => {
+    if (correctAnswers === 0) return "😅 Have you ever eaten cheese?";
+    if (correctAnswers <= 2) return "🧐 You know a little, but still a long way to go!";
+    if (correctAnswers <= 4) return "🧠 You're on your way to cheese mastery!";
+    return "👑 You are a true cheese connoisseur!";
   };
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      backgroundColor: '#fef9c3',
-      fontFamily: 'Poppins, sans-serif',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'flex-start',
-      padding: '20px',
-      textAlign: 'center'
-    }}>
-      <div id="result-section" style={{ width: '100%', maxWidth: '500px' }}>
-        
-        <h1 style={{ fontSize: '2rem', marginBottom: '20px', color: '#333' }}>
-          🧀 Your Cheese Matches!
-        </h1>
+    <div style={{ textAlign: 'center', padding: '2rem' }}>
+      <h2>🎉 Your Perfect Cheese Match!</h2>
 
-        <div style={{ marginBottom: '30px' }}>
-          <h2 style={{ fontSize: '1.5rem', marginBottom: '10px' }}>{globalCheese.name}</h2>
-          <img 
+      <div style={{ margin: '2rem 0' }}>
+        <h3>{globalCheese.name}</h3>
+        {globalCheese.image && (
+          <img
             src={globalCheese.image}
             alt={globalCheese.name}
-            style={{
-              width: '250px',
-              height: 'auto',
-              borderRadius: '20px'
-            }}
+            style={{ maxWidth: '300px', borderRadius: '12px' }}
           />
-        </div>
-
-        <div style={{ marginBottom: '30px' }}>
-          <h2 style={{ fontSize: '1.5rem', marginBottom: '10px' }}>{turkishCheese.name}</h2>
-          <img 
-            src={turkishCheese.image}
-            alt={turkishCheese.name}
-            style={{
-              width: '250px',
-              height: 'auto',
-              borderRadius: '20px'
-            }}
-          />
-        </div>
-
-        {typeof knowledgeScore !== 'undefined' && (
-          <div style={{ marginBottom: '30px' }}>
-            <h3 style={{ fontSize: '1.2rem', color: '#333' }}>
-              🎓 Knowledge Quiz: {knowledgeScore} out of {totalKnowledge} correct!
-            </h3>
-            <p style={{
-              fontSize: '1rem',
-              marginTop: '10px',
-              color: '#555',
-              maxWidth: '300px'
-            }}>
-              {getFunnyMessage(knowledgeScore)}
-            </p>
-          </div>
         )}
       </div>
 
-      {/* Download Result Button */}
-      <button onClick={handleDownloadResult} disabled={downloading} style={{
-        backgroundColor: '#4caf50',
-        padding: '12px 24px',
-        fontSize: '1rem',
-        fontWeight: 'bold',
-        borderRadius: '9999px',
-        border: 'none',
-        cursor: 'pointer',
-        marginTop: '20px',
-        color: 'white',
-        transition: 'background 0.3s',
-        opacity: downloading ? 0.6 : 1
-      }}
-      >
-        {downloading ? 'Preparing...' : '📸 Download Your Result'}
-      </button>
+      <div style={{ margin: '2rem 0' }}>
+        <h4>🇹🇷 You should also try this Turkish gem:</h4>
+        <h3>{turkishCheese.name}</h3>
+        {turkishCheese.image && (
+          <img
+            src={turkishCheese.image}
+            alt={turkishCheese.name}
+            style={{ maxWidth: '300px', borderRadius: '12px' }}
+          />
+        )}
+      </div>
 
-      {/* Share Result Button */}
-      <button onClick={handleShareResult} style={{
-        backgroundColor: '#3b82f6',
-        padding: '12px 24px',
-        fontSize: '1rem',
-        fontWeight: 'bold',
-        borderRadius: '9999px',
-        border: 'none',
-        cursor: 'pointer',
-        marginTop: '10px',
-        color: 'white',
-        transition: 'background 0.3s'
-      }}
-      >
-        📤 Share Your Result
-      </button>
+      <div style={{ marginTop: '2rem', fontStyle: 'italic', color: '#4b5563' }}>
+        <p>{getKnowledgeMessage()}</p>
+      </div>
 
-      {/* Try Again Button */}
-      <button onClick={handleTryAgain} style={{
-        backgroundColor: '#facc15',
-        padding: '12px 24px',
-        fontSize: '1rem',
-        fontWeight: 'bold',
-        borderRadius: '9999px',
-        border: 'none',
-        cursor: 'pointer',
-        marginTop: '10px',
-        transition: 'background 0.3s'
-      }}
-      >
-        🔁 Try Again
-      </button>
+      <div style={{ marginTop: '2rem' }}>
+        <button
+          onClick={handleTryAgain}
+          style={{
+            margin: '1rem',
+            padding: '0.75rem 1.5rem',
+            backgroundColor: '#facc15',
+            color: '#000',
+            fontWeight: 'bold',
+            borderRadius: '8px',
+            border: 'none',
+            cursor: 'pointer'
+          }}
+        >
+          🔁 Try Again
+        </button>
 
+        <button
+          onClick={handleShare}
+          style={{
+            margin: '1rem',
+            padding: '0.75rem 1.5rem',
+            backgroundColor: '#3b82f6',
+            color: '#fff',
+            fontWeight: 'bold',
+            borderRadius: '8px',
+            border: 'none',
+            cursor: 'pointer'
+          }}
+        >
+          📤 Share Your Result
+        </button>
+      </div>
     </div>
   );
 }
