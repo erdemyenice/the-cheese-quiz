@@ -100,8 +100,7 @@ export default function Quiz() {
   }
 
   const current = questions[step];
-
-  return (
+return (
   <div style={{ textAlign: 'center', padding: '2rem' }}>
     <h2 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>{current.question}</h2>
 
@@ -120,14 +119,16 @@ export default function Quiz() {
       />
     )}
 
-    <div style={{
-      display: 'grid',
-      gridTemplateColumns: current.options.length <= 4 ? '1fr 1fr' : '1fr 1fr 1fr',
-      gap: '1rem',
-      justifyContent: 'center',
-      maxWidth: '500px',
-      margin: '0 auto'
-    }}>
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: current.options.length <= 4 ? '1fr 1fr' : '1fr 1fr 1fr',
+        gap: '1rem',
+        justifyContent: 'center',
+        maxWidth: '500px',
+        margin: '0 auto'
+      }}
+    >
       {current.options.map((option) => (
         <button
           key={option}
@@ -149,3 +150,4 @@ export default function Quiz() {
   </div>
 );
 
+  
