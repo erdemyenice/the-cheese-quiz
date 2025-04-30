@@ -102,20 +102,50 @@ export default function Quiz() {
   const current = questions[step];
 
   return (
-    <div style={{ textAlign: 'center', padding: '2rem' }}>
-      <h2>{current.question}</h2>
-      {current.image && (
-        <img src={current.image} alt={current.key} style={{ maxWidth: '100%', height: 'auto', marginBottom: 20 }} />
-      )}
+  <div style={{ textAlign: 'center', padding: '2rem' }}>
+    <h2 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>{current.question}</h2>
+
+    {current.image && (
+      <img
+        src={current.image}
+        alt={current.key}
+        style={{
+          width: '100%',
+          maxWidth: '400px',
+          height: 'auto',
+          margin: '0 auto 1.5rem',
+          borderRadius: '12px',
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
+        }}
+      />
+    )}
+
+    <div style={{
+      display: 'grid',
+      gridTemplateColumns: current.options.length <= 4 ? '1fr 1fr' : '1fr 1fr 1fr',
+      gap: '1rem',
+      justifyContent: 'center',
+      maxWidth: '500px',
+      margin: '0 auto'
+    }}>
       {current.options.map((option) => (
         <button
           key={option}
           onClick={() => handleAnswer(option)}
-          style={{ margin: '1rem', padding: '1rem 2rem' }}
+          style={{
+            padding: '1rem',
+            fontSize: '1rem',
+            backgroundColor: '#facc15',
+            border: 'none',
+            borderRadius: '10px',
+            cursor: 'pointer',
+            fontWeight: 'bold'
+          }}
         >
           {option}
         </button>
       ))}
     </div>
-  );
-}
+  </div>
+);
+
